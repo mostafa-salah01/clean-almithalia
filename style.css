@@ -2370,6 +2370,32 @@ section {
   color: var(--white);
 }
 
+.footer-action-btn.btn-tiktok {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.footer-action-btn.btn-tiktok:hover {
+  background-color: #000000;
+  border-color: #25F4EE;
+  color: #FFFFFF;
+  box-shadow: 0 0 12px rgba(37, 244, 238, 0.35);
+  transform: translateY(-2px);
+}
+
+.footer-action-btn.btn-instagram {
+  background-color: rgba(225, 48, 108, 0.15);
+  border-color: rgba(225, 48, 108, 0.4);
+}
+
+.footer-action-btn.btn-instagram:hover {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  border-color: #dc2743;
+  color: #FFFFFF;
+  box-shadow: 0 4px 14px rgba(220, 39, 67, 0.4);
+  transform: translateY(-2px);
+}
+
 .footer-action-btn svg {
   width: 16px;
   height: 16px;

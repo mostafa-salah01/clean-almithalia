@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160" fill="none">
+  <!-- Circular Decorative Outer Ring -->
+  <circle cx="80" cy="80" r="74" stroke="#D4AF37" stroke-width="2.5" stroke-dasharray="5 3" opacity="0.9"/>
+  <circle cx="80" cy="80" r="68" stroke="#1B4332" stroke-width="2"/>
+  
+  <!-- Subtle Gradient Disc -->
+  <defs>
+    <radialGradient id="badgeGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1B4332" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#0F2A20" stop-opacity="0.98"/>
+    </radialGradient>
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFE082"/>
+      <stop offset="50%" stop-color="#D4AF37"/>
+      <stop offset="100%" stop-color="#AA7C11"/>
+    </linearGradient>
+  </defs>
+
+  <circle cx="80" cy="80" r="64" fill="url(#badgeGlow)" stroke="url(#goldGradient)" stroke-width="2.5"/>
+
+  <!-- Shield Icon -->
+  <path d="M80 32 L106 44 V68 C106 87 95 103 80 110 C65 103 54 87 54 68 V44 L80 32 Z" fill="#1B4332" stroke="url(#goldGradient)" stroke-width="2" stroke-linejoin="round"/>
+  
+  <!-- Checkmark inside Shield -->
+  <path d="M71 67 L77 74 L90 58" stroke="url(#goldGradient)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- 5 Stars Curve -->
+  <g fill="url(#goldGradient)" transform="scale(0.85) translate(14, 2)">
+    <polygon points="80,105 82,111 88,111 83,115 85,121 80,117 75,121 77,115 72,111 78,111"/>
+    <polygon points="62,102 64,107 70,107 65,111 67,116 62,113 57,116 59,111 54,107 60,107"/>
+    <polygon points="98,102 100,107 106,107 101,111 103,116 98,113 93,116 95,111 90,107 96,107"/>
+  </g>
+
+  <!-- Arced / Center Arabic Typography -->
+  <text x="80" y="128" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="800" fill="#FFE082" letter-spacing="0.5">ضمان معتمد 100%</text>
+  <text x="80" y="142" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="600" fill="#E2E8F0">كلين المثالية</text>
+</svg>

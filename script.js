@@ -5,19 +5,24 @@
  * ==============================================================================
  */
 
-// معالجة فورية وتلقائية لأي خطأ في تحميل الصور (.webp إلى .PNG أو .png)
+// معالجة فورية وتلقائية لأي خطأ في تحميل الصور
 window.addEventListener('error', (e) => {
   if (e.target && e.target.tagName === 'IMG') {
     const img = e.target;
     const currentSrc = img.getAttribute('src');
-    if (currentSrc && !img.dataset.caseFallbackTried) {
-      img.dataset.caseFallbackTried = 'true';
-      if (currentSrc.endsWith('.webp')) {
-        img.src = currentSrc.replace(/\.webp$/, '.PNG');
-      } else if (currentSrc.endsWith('.PNG')) {
-        img.src = currentSrc.replace(/\.PNG$/, '.png');
+    const step = parseInt(img.dataset.fallbackStep || '0', 10);
+    if (currentSrc && step < 3) {
+      img.dataset.fallbackStep = (step + 1).toString();
+      if (currentSrc.endsWith('.jpg')) {
+        img.src = currentSrc.replace(/\.jpg$/, '.jpeg');
+      } else if (currentSrc.endsWith('.jpeg')) {
+        img.src = currentSrc.replace(/\.jpeg$/, '.jpg');
+      } else if (currentSrc.endsWith('.webp')) {
+        img.src = currentSrc.replace(/\.webp$/, '.jpeg');
       } else if (currentSrc.endsWith('.png')) {
         img.src = currentSrc.replace(/\.png$/, '.PNG');
+      } else if (currentSrc.endsWith('.PNG')) {
+        img.src = currentSrc.replace(/\.PNG$/, '.png');
       }
     }
   }
@@ -229,20 +234,26 @@ document.addEventListener('DOMContentLoaded', () => {
   const processVideo = document.getElementById('process-video');
   const processSection = document.getElementById('how-it-works');
 
-  if (processVideo && processSection && 'IntersectionObserver' in window) {
-    const videoObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          processVideo.play().catch(() => {
-            // التعامل مع متصفحات تمنع التشغيل التلقائي
-          });
-        } else {
-          processVideo.pause();
-        }
-      });
-    }, { threshold: 0.3 });
+  if (processVideo && processSection) {
+    const isMobile = window.innerWidth < 768;
+    if (!isMobile && 'IntersectionObserver' in window) {
+      const videoObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            processVideo.play().catch(() => {
+              // التعامل مع متصفحات تمنع التشغيل التلقائي
+            });
+          } else {
+            processVideo.pause();
+          }
+        });
+      }, { threshold: 0.3 });
 
-    videoObserver.observe(processSection);
+      videoObserver.observe(processSection);
+    } else {
+      // الحفاظ على خفة وسرعة الموقع على الجوال بدون استهلاك بيانات الفيديو
+      processVideo.pause();
+    }
   }
 
   /* ==========================================================================
