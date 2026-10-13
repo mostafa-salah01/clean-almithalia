@@ -2370,35 +2370,125 @@ section {
   color: var(--white);
 }
 
-.footer-action-btn.btn-tiktok {
-  background-color: rgba(0, 0, 0, 0.3);
-  border-color: rgba(255, 255, 255, 0.25);
-}
-
-.footer-action-btn.btn-tiktok:hover {
-  background-color: #000000;
-  border-color: #25F4EE;
-  color: #FFFFFF;
-  box-shadow: 0 0 12px rgba(37, 244, 238, 0.35);
-  transform: translateY(-2px);
-}
-
-.footer-action-btn.btn-instagram {
-  background-color: rgba(225, 48, 108, 0.15);
-  border-color: rgba(225, 48, 108, 0.4);
-}
-
-.footer-action-btn.btn-instagram:hover {
-  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-  border-color: #dc2743;
-  color: #FFFFFF;
-  box-shadow: 0 4px 14px rgba(220, 39, 67, 0.4);
-  transform: translateY(-2px);
-}
-
 .footer-action-btn svg {
   width: 16px;
   height: 16px;
+}
+
+/* ==================== Social Media Branded Badges ==================== */
+.footer-social-wrapper {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-social-headline {
+  font-size: 0.88rem;
+  color: #D4AF37;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.footer-social-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.social-brand-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 14px 5px 6px;
+  border-radius: 9999px;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.brand-icon-box {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+.brand-icon-box svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Instagram Badge */
+.social-brand-badge.badge-ig {
+  border-color: rgba(225, 48, 108, 0.45);
+}
+
+.brand-icon-box.ig-box {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(220, 39, 67, 0.45);
+}
+
+.social-brand-badge.badge-ig:hover {
+  background: rgba(225, 48, 108, 0.16);
+  border-color: #dc2743;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(220, 39, 67, 0.35);
+}
+
+.social-brand-badge.badge-ig:hover .ig-box {
+  transform: scale(1.1) rotate(5deg);
+}
+
+/* TikTok Badge */
+.social-brand-badge.badge-tt {
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.brand-icon-box.tt-box {
+  background: #010101;
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.brand-icon-box.tt-box svg {
+  filter: drop-shadow(-1px -1px 0px rgba(37, 244, 238, 0.85)) drop-shadow(1px 1px 0px rgba(254, 44, 85, 0.85));
+}
+
+.social-brand-badge.badge-tt:hover {
+  background: rgba(0, 0, 0, 0.45);
+  border-color: #25F4EE;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(37, 244, 238, 0.35);
+}
+
+.social-brand-badge.badge-tt:hover .tt-box {
+  transform: scale(1.1) rotate(-5deg);
+}
+
+.brand-account-handle {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-weight: 700;
+  font-size: 0.86rem;
+  color: #F8FAFC;
+  direction: ltr;
+  unicode-bidi: embed;
+}
+
+.social-brand-badge.badge-ig:hover .brand-account-handle {
+  color: #FFE082;
+}
+
+.social-brand-badge.badge-tt:hover .brand-account-handle {
+  color: #25F4EE;
 }
 
 .footer-title {
