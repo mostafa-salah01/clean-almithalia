@@ -5,14 +5,16 @@
  * ==============================================================================
  */
 
-// معالجة فورية وتلقائية لأي خطأ في تحميل الصور بسبب حساسية الأحرف (.png مقابل .PNG)
+// معالجة فورية وتلقائية لأي خطأ في تحميل الصور (.webp إلى .PNG أو .png)
 window.addEventListener('error', (e) => {
   if (e.target && e.target.tagName === 'IMG') {
     const img = e.target;
     const currentSrc = img.getAttribute('src');
     if (currentSrc && !img.dataset.caseFallbackTried) {
       img.dataset.caseFallbackTried = 'true';
-      if (currentSrc.endsWith('.PNG')) {
+      if (currentSrc.endsWith('.webp')) {
+        img.src = currentSrc.replace(/\.webp$/, '.PNG');
+      } else if (currentSrc.endsWith('.PNG')) {
         img.src = currentSrc.replace(/\.PNG$/, '.png');
       } else if (currentSrc.endsWith('.png')) {
         img.src = currentSrc.replace(/\.png$/, '.PNG');
