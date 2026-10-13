@@ -490,8 +490,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const targetUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`;
 
-      // فتح نافذة الواتساب المباشرة
-      window.open(targetUrl, '_blank', 'noopener,noreferrer');
+      // فتح رابط الواتساب بطريقة آمنة ومتوافقة مع بيئة iFrame
+      const waLink = document.createElement('a');
+      waLink.href = targetUrl;
+      waLink.target = '_blank';
+      waLink.rel = 'noopener noreferrer';
+      document.body.appendChild(waLink);
+      waLink.click();
+      document.body.removeChild(waLink);
     });
 
     // إزالة رسائل الخطأ عند الكتابة
