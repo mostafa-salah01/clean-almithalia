@@ -2436,10 +2436,49 @@ section {
 }
 
 .footer-credit {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: 0.85rem;
+  font-family: var(--font-body);
+  font-size: 0.76rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 400;
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  letter-spacing: 0.2px;
+  transition: color var(--transition-fast);
+}
+
+.footer-credit strong {
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
+}
+
+.footer-credit:hover {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.footer-credit:hover strong {
   color: var(--gold-light);
-  font-weight: 600;
+}
+
+.credit-sep {
+  opacity: 0.35;
+}
+
+.credit-phone {
+  color: inherit;
+  direction: ltr;
+  text-decoration: none;
+  font-size: 0.76rem;
+  opacity: 0.85;
+  transition: opacity var(--transition-fast), color var(--transition-fast);
+}
+
+.credit-phone:hover {
+  opacity: 1;
+  color: var(--gold-light);
+  text-decoration: underline;
 }
 
 /* ==========================================================================
