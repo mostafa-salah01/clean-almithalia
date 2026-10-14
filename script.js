@@ -40,42 +40,210 @@ document.addEventListener('DOMContentLoaded', () => {
   const WHATSAPP_NUMBER = '966564477200';
 
   // معادلات وتكاليف حاسبة الأسعار (ريال سعودي)
-  // يمكنك تعديل الأسعار الأساسية ومعدل الزيادة للمتر المربع هنا:
   const PRICING_CONFIG = {
-    pest: {
-      name: 'مكافحة الحشرات والقوارض',
-      basePrice: 180,
-      thresholdArea: 100, // المساحة المشمولة بالسعر الأساسي (م²)
-      ratePerExtraMeter: 0.5,
-      hasArea: true
-    },
-    cleaning: {
-      name: 'النظافة العامة والفلل',
-      basePrice: 300,
-      thresholdArea: 100,
-      ratePerExtraMeter: 2.0,
-      hasArea: true
-    },
-    sofa: {
-      name: 'غسيل المجالس والمفروشات',
+    // 1. مكافحة حشرات شقق 150 ريال
+    pest_apt: {
+      name: 'مكافحة حشرات شقق',
       basePrice: 150,
-      thresholdArea: 50,
-      ratePerExtraMeter: 1.0,
-      hasArea: true
+      thresholdArea: 0,
+      ratePerExtraMeter: 0,
+      hasArea: false
     },
-    tanks: {
-      name: 'غسيل وعزل الخزانات',
-      basePrice: 250,
-      thresholdArea: 50,
-      ratePerExtraMeter: 0.8,
-      hasArea: true
-    },
-    drains: {
-      name: 'تسليك المجاري والصرف',
+    // 2. مكافحة جميع أنواع الحشرات فيلا 200 ريال
+    pest_villa: {
+      name: 'مكافحة جميع أنواع الحشرات (فيلا)',
       basePrice: 200,
       thresholdArea: 0,
       ratePerExtraMeter: 0,
-      hasArea: false // سعر ثابت بدون حقل مساحة
+      hasArea: false
+    },
+    // مكافحة الفئران والنمل الأبيض والصراصير
+    pest_termites: {
+      name: 'مكافحة الفئران والنمل الأبيض والصراصير',
+      basePrice: 200,
+      thresholdArea: 0,
+      ratePerExtraMeter: 0,
+      hasArea: false
+    },
+    // 3. تنظيف الشقة 400 ريال
+    cleaning_apt: {
+      name: 'تنظيف الشقة بالكامل',
+      basePrice: 400,
+      thresholdArea: 0,
+      ratePerExtraMeter: 0,
+      hasArea: false
+    },
+    // 4. تنظيف الفيلا 1000 ريال
+    cleaning_villa: {
+      name: 'تنظيف الفيلا بالكامل',
+      basePrice: 1000,
+      thresholdArea: 0,
+      ratePerExtraMeter: 0,
+      hasArea: false
+    },
+    // 5. تنظيف المطبخ 250 ريال
+    cleaning_kitchen: {
+      name: 'تنظيف المطبخ والتعقيم الشامل',
+      basePrice: 250,
+      thresholdArea: 0,
+      ratePerExtraMeter: 0,
+      hasArea: false
+    },
+    // 6. تنظيف الكنب 7 أشخاص 149 ريال
+    sofa_7: {
+      name: 'تنظيف الكنب (7 أشخاص)',
+      basePrice: 149,
+      thresholdArea: 0,
+      ratePerExtraMeter: 0,
+      hasArea: false
+    },
+    // 7. تنظيف المجالس 149 ريال
+    majlis: {
+      name: 'تنظيف المجالس العربية',
+      basePrice: 149,
+      thresholdArea: 0,
+      ratePerExtraMeter: 0,
+      hasArea: false
+    },
+    // 8. تنظيف مجلس + ستارة وسجادة 200 ريال
+    majlis_combo: {
+      name: 'تنظيف مجلس + ستارة وسجادة',
+      basePrice: 200,
+      thresholdArea: 0,
+      ratePerExtraMeter: 0,
+      hasArea: false
+    },
+    // 9. تنظيف المراتب 149 ريال
+    mattress: {
+      name: 'تنظيف وتعقيم المراتب',
+      basePrice: 149,
+      thresholdArea: 0,
+      ratePerExtraMeter: 0,
+      hasArea: false
+    },
+    // 10. تنظيف وتعقيم خزان المياه 150 ريال
+    tank_1: {
+      name: 'تنظيف وتعقيم خزان مياه واحد',
+      basePrice: 150,
+      thresholdArea: 0,
+      ratePerExtraMeter: 0,
+      hasArea: false
+    },
+    // 11. تنظيف وتعقيم خزانين 250 ريال
+    tank_2: {
+      name: 'تنظيف وتعقيم خزانين',
+      basePrice: 250,
+      thresholdArea: 0,
+      ratePerExtraMeter: 0,
+      hasArea: false
+    },
+    // 12. تنظيف وتعقيم ثلاث خزانات 350 ريال
+    tank_3: {
+      name: 'تنظيف وتعقيم ثلاث خزانات',
+      basePrice: 350,
+      thresholdArea: 0,
+      ratePerExtraMeter: 0,
+      hasArea: false
+    },
+    // 13. عزل الخزان 999 ريال
+    tank_insulation: {
+      name: 'عزل الخزان إيبوكسي معتمد',
+      basePrice: 999,
+      thresholdArea: 0,
+      ratePerExtraMeter: 0,
+      hasArea: false
+    },
+    // 14. عزل الأسطح المتر 20 ريال
+    roof_insulation: {
+      name: 'عزل الأسطح (مائي وحراري)',
+      basePrice: 20,
+      thresholdArea: 1,
+      ratePerExtraMeter: 20,
+      hasArea: true
+    },
+    // 15. عازل مواسير المتر 30 ريال
+    pipe_insulation: {
+      name: 'عازل مواسير المياه',
+      basePrice: 30,
+      thresholdArea: 1,
+      ratePerExtraMeter: 30,
+      hasArea: true
+    },
+    // 16. تسليك المجاري وإزالة الروائح الكريهة 200 ريال
+    drains_unblock: {
+      name: 'تسليك المجاري وإزالة الروائح الكريهة',
+      basePrice: 200,
+      thresholdArea: 0,
+      ratePerExtraMeter: 0,
+      hasArea: false
+    },
+    // 17. شفط بيارات 200 ريال
+    septic_tank: {
+      name: 'شفط بيارات (وايت مجهز)',
+      basePrice: 200,
+      thresholdArea: 0,
+      ratePerExtraMeter: 0,
+      hasArea: false
+    },
+    // 18. كشف تسريب المياه 100 ريال
+    leak_detection: {
+      name: 'كشف تسريب المياه إلكترونياً',
+      basePrice: 100,
+      thresholdArea: 0,
+      ratePerExtraMeter: 0,
+      hasArea: false
+    },
+    // 19. صيانة أفران الغاز 100 ريال
+    oven_maint: {
+      name: 'صيانة أفران الغاز المنزلية',
+      basePrice: 100,
+      thresholdArea: 0,
+      ratePerExtraMeter: 0,
+      hasArea: false
+    },
+    // 20. تنظيف إفران الغاز مع الصيانة 149 ريال
+    oven_clean_maint: {
+      name: 'تنظيف أفران الغاز مع الصيانة',
+      basePrice: 149,
+      thresholdArea: 0,
+      ratePerExtraMeter: 0,
+      hasArea: false
+    },
+    // مفاتيح التوافق القديمة
+    pest: {
+      name: 'مكافحة الحشرات والقوارض',
+      basePrice: 150,
+      thresholdArea: 0,
+      ratePerExtraMeter: 0,
+      hasArea: false
+    },
+    cleaning: {
+      name: 'النظافة العامة والفلل',
+      basePrice: 400,
+      thresholdArea: 0,
+      ratePerExtraMeter: 0,
+      hasArea: false
+    },
+    sofa: {
+      name: 'غسيل المجالس والكنب',
+      basePrice: 149,
+      thresholdArea: 0,
+      ratePerExtraMeter: 0,
+      hasArea: false
+    },
+    tanks: {
+      name: 'غسيل وعزل الخزانات',
+      basePrice: 150,
+      thresholdArea: 0,
+      ratePerExtraMeter: 0,
+      hasArea: false
+    },
+    drains: {
+      name: 'تسليك المجاري والبيارات',
+      basePrice: 200,
+      thresholdArea: 0,
+      ratePerExtraMeter: 0,
+      hasArea: false
     }
   };
 
@@ -313,6 +481,31 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ==========================================================================
+   * 6.5. تبويبات تصفية قائمة الأسعار (Pricing Filter Tabs)
+   * ========================================================================== */
+  const priceTabButtons = document.querySelectorAll('.price-tab-btn');
+  const priceItemCards = document.querySelectorAll('.price-item-card');
+
+  if (priceTabButtons.length > 0 && priceItemCards.length > 0) {
+    priceTabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        priceTabButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const targetCategory = btn.getAttribute('data-category');
+        priceItemCards.forEach(card => {
+          const cardCat = card.getAttribute('data-cat');
+          if (targetCategory === 'all' || cardCat === targetCategory) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+  }
+
+  /* ==========================================================================
    * 7. حاسبة السعر التقريبي (Price Calculator)
    * ========================================================================== */
   const calcServiceSelect = document.getElementById('calc-service');
@@ -330,7 +523,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const config = PRICING_CONFIG[selectedKey];
     if (!config) return;
 
-    // إذا كانت الخدمة لا تحتاج مساحة (مثل تسليك المجاري)
+    // إذا كانت الخدمة لا تحتاج مساحة
     if (!config.hasArea) {
       if (calcAreaGroup) calcAreaGroup.style.display = 'none';
       calculatedPriceElem.textContent = config.basePrice.toString();
@@ -340,9 +533,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (calcAreaGroup) calcAreaGroup.style.display = 'flex';
 
-    const area = parseInt(calcAreaInput ? calcAreaInput.value : '100', 10);
+    const area = parseInt(calcAreaInput ? calcAreaInput.value : '10', 10);
     if (areaValLabel) {
-      areaValLabel.textContent = `${area} م²`;
+      areaValLabel.textContent = `${area} م`;
     }
 
     // حساب السعر بالمعادلة المحددة
@@ -365,10 +558,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let messageText = `السلام عليكم ورحمة الله، أرغب بالاستفسار والحجز للخدمة التالية:\n` +
       `الخدمة: ${serviceName}\n`;
     if (area !== null) {
-      messageText += `المساحة التقريبية: ${area} م²\n`;
+      messageText += `الكمية / المساحة: ${area}\n`;
     }
-    messageText += `التقدير عبر الحاسبة: ${price} ريال تقريباً\n` +
-      `أرجو إفادتي بالتأكيد وتحديد أقرب موعد للمعاينة.`;
+    messageText += `السعر التقديري: ${price} ريال\n` +
+      `كود الخصم والمشرف: _xx__a.7.m.e.d__xx_\n` +
+      `أرجو إفادتي بالتأكيد وتحديد أقرب موعد للمعاينة والتنفيذ.`;
 
     const encoded = encodeURIComponent(messageText);
     btnCalcWhatsapp.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encoded}`;

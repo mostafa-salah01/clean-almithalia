@@ -1744,6 +1744,229 @@ section {
 }
 
 /* ==========================================================================
+   8.5. بنر كود الخصم وقائمة الأسعار المعتمدة (Pricing Catalog & Promo Banner)
+   ========================================================================== */
+.promo-code-banner {
+  background: linear-gradient(135deg, #0d3824, #1b5338);
+  border: 1.5px solid var(--gold);
+  border-radius: var(--radius-lg);
+  padding: 18px 24px;
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  box-shadow: 0 8px 24px rgba(13, 56, 36, 0.15);
+}
+
+.promo-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.promo-title {
+  color: var(--gold-light);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.promo-sub {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.88rem;
+}
+
+.promo-code-badge {
+  background: var(--gold);
+  color: #0b2e1e;
+  font-weight: 800;
+  font-size: 1.05rem;
+  letter-spacing: 1px;
+  padding: 8px 18px;
+  border-radius: var(--radius-full);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.35);
+  border: 2px dashed #0b2e1e;
+}
+
+/* تبويبات الأسعار */
+.pricing-tabs-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 36px;
+}
+
+.price-tab-btn {
+  background-color: var(--white);
+  color: var(--text);
+  border: 1.5px solid var(--border);
+  padding: 10px 20px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-heading);
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.price-tab-btn:hover {
+  border-color: var(--gold);
+  color: var(--green);
+  background-color: var(--cream);
+}
+
+.price-tab-btn.active {
+  background-color: var(--green);
+  color: var(--white);
+  border-color: var(--green);
+  box-shadow: 0 4px 12px rgba(13, 56, 36, 0.25);
+}
+
+/* شبكة بطاقات الأسعار */
+.pricing-catalog-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 22px;
+  margin-bottom: 48px;
+}
+
+@media (min-width: 640px) {
+  .pricing-catalog-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .pricing-catalog-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.price-item-card {
+  background-color: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+}
+
+.price-item-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--gold);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.price-item-card.featured {
+  border-color: var(--gold);
+  background: linear-gradient(180deg, #FFFFFF, #FAF8F2);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.15);
+}
+
+.price-badge-top {
+  position: absolute;
+  top: -12px;
+  left: 20px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  color: #0b2e1e;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.price-card-header {
+  margin-bottom: 14px;
+}
+
+.price-card-category {
+  display: inline-block;
+  background-color: rgba(13, 56, 36, 0.08);
+  color: var(--green);
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  margin-bottom: 8px;
+}
+
+.price-card-title {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--green);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.price-card-value-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed var(--border);
+}
+
+.price-card-amount {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--gold-dark);
+}
+
+.price-card-currency {
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.price-card-desc {
+  font-size: 0.88rem;
+  color: var(--text-light);
+  line-height: 1.55;
+  margin-bottom: 18px;
+  flex-grow: 1;
+}
+
+.price-card-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--green);
+  color: var(--white);
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.92rem;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.price-card-btn svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.price-card-btn:hover {
+  background-color: #25D366;
+  color: var(--white);
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.35);
+}
+
+/* ==========================================================================
    9. حاسبة السعر التقريبي (Calculator)
    ========================================================================== */
 .calc-wrapper {
@@ -2411,40 +2634,44 @@ section {
   color: var(--white);
 }
 
-/* Instagram Button - Vibrant by default */
+/* Instagram Button - Vibrant authentic brand gradient by default */
 .footer-action-btn.btn-ig {
-  background: rgba(225, 48, 108, 0.14);
-  border-color: rgba(225, 48, 108, 0.45);
-  box-shadow: 0 2px 10px rgba(225, 48, 108, 0.15);
+  background: linear-gradient(45deg, #f09433, #dc2743, #bc1888);
+  border-color: #dc2743;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(220, 39, 67, 0.4);
 }
 
 .footer-action-btn.btn-ig .social-icon-ig {
-  filter: drop-shadow(0 1px 3px rgba(225, 48, 108, 0.5));
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
 }
 
 .footer-action-btn.btn-ig:hover {
-  background: linear-gradient(45deg, #f09433, #dc2743, #bc1888);
-  border-color: #dc2743;
-  color: var(--white);
-  box-shadow: 0 4px 16px rgba(220, 39, 67, 0.45);
+  background: linear-gradient(45deg, #f29c3f, #e8334f, #cb2097);
+  border-color: #f09433;
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(220, 39, 67, 0.55);
+  transform: translateY(-2px);
 }
 
-/* TikTok Button - Authentic 3D colors by default */
+/* TikTok Button - Authentic 3D dark/cyan/pink brand colors by default */
 .footer-action-btn.btn-tt {
-  background-color: rgba(1, 1, 1, 0.55);
-  border-color: rgba(37, 244, 238, 0.38);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+  background-color: #050505;
+  border-color: #25F4EE;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5), 0 0 10px rgba(37, 244, 238, 0.3);
 }
 
 .footer-action-btn.btn-tt .social-icon-tt {
-  filter: drop-shadow(0 1px 4px rgba(37, 244, 238, 0.4));
+  filter: drop-shadow(0 1px 4px rgba(37, 244, 238, 0.5));
 }
 
 .footer-action-btn.btn-tt:hover {
-  background-color: #000000;
-  border-color: #25F4EE;
-  color: var(--white);
-  box-shadow: 0 4px 16px rgba(37, 244, 238, 0.35), 0 0 10px rgba(254, 44, 85, 0.25);
+  background-color: #111111;
+  border-color: #FE2C55;
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(37, 244, 238, 0.4), 0 0 14px rgba(254, 44, 85, 0.45);
+  transform: translateY(-2px);
 }
 
 .footer-logo {
