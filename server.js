@@ -12,12 +12,13 @@ const HOST = '0.0.0.0';
 // Serve static assets with correct caching and headers
 app.use(express.static(__dirname, {
   extensions: ['html', 'htm'],
-  maxAge: '30d',
   setHeaders: (res, filePath) => {
-    if (filePath.endsWith('.html')) {
-      res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate');
+    if (filePath.endsWith('.html') || filePath.endsWith('.css') || filePath.endsWith('.js')) {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      res.setHeader('Pragma', 'no-cache');
+      res.setHeader('Expires', '0');
     } else {
-      res.setHeader('Cache-Control', 'public, max-age=2592000, immutable');
+      res.setHeader('Cache-Control', 'public, max-age=86400');
     }
   }
 }));

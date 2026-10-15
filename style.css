@@ -1347,6 +1347,54 @@ section {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
+/* زر التشغيل المركزي الكبير والأنيق */
+.video-center-play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: rgba(11, 26, 20, 0.85);
+  backdrop-filter: blur(8px);
+  border: 2px solid var(--gold);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 4;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 0 4px rgba(212, 175, 55, 0.25);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 0;
+}
+
+.video-center-play-btn svg {
+  width: 26px;
+  height: 26px;
+  color: var(--gold);
+  margin-right: -2px; /* بصرياً لضبط مثلث التشغيل في المنتصف */
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.video-center-play-btn:hover {
+  background: var(--gold);
+  transform: translate(-50%, -50%) scale(1.12);
+  box-shadow: 0 6px 25px rgba(212, 175, 55, 0.5);
+}
+
+.video-center-play-btn:hover svg {
+  color: #ffffff;
+}
+
+/* عندما يعمل الفيديو، يختفي زر التشغيل الأوسط بسلاسة */
+.portfolio-video-wrap.is-playing .video-center-play-btn {
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.85);
+}
+
 /* أزرار التحكم السريع على الفيديو */
 .video-overlay-controls {
   position: absolute;
