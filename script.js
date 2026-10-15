@@ -397,37 +397,215 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ==========================================================================
-   * 5. التحكم التلقائي بفيديو آلية العمل (Process Video Observer)
+   * 5. التحكم التلقائي الذكي بفيديوهات سابقة الأعمال (Portfolio Video Observer)
    * ========================================================================== */
+  const portfolioVideos = document.querySelectorAll('.portfolio-video');
+  const portfolioCards = document.querySelectorAll('.portfolio-card');
+  const pfTabButtons = document.querySelectorAll('.pf-tab-btn');
+
+  if (portfolioVideos.length > 0 && 'IntersectionObserver' in window) {
+    // مراقب التمرير الذكي لتشغيل الفيديو تلقائياً فور ظهوره وإيقافه عند الخروج
+    const videoObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const video = entry.target;
+        const card = video.closest('.portfolio-card');
+        const playBtn = card ? card.querySelector('.btn-video-playback') : null;
+
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.25) {
+          // تشغيل هادئ بدون صوت للحفاظ على بطارية الجوال وتجربة المستخدم
+          if (!video.dataset.userUnmuted) {
+            video.muted = true;
+          }
+          const playPromise = video.play();
+          if (playPromise !== undefined) {
+            playPromise.then(() => {
+              updatePlayIcon(playBtn, true);
+            }).catch(() => {
+              // التعامل بسلاسة مع سياسات المتصفحات التي تقيّد التشغيل التلقائي
+            });
+          }
+        } else {
+          // إيقاف فوري لتوفير استهلاك الذاكرة والإنترنت
+          video.pause();
+          updatePlayIcon(playBtn, false);
+        }
+      });
+    }, {
+      threshold: [0, 0.25, 0.6],
+      rootMargin: '50px 0px 50px 0px'
+    });
+
+    portfolioVideos.forEach(video => {
+      videoObserver.observe(video);
+
+      // النقر المباشر على الفيديو للتبديل بين التشغيل والإيقاف
+      video.addEventListener('click', () => {
+        toggleVideoPlayback(video);
+      });
+    });
+
+    // إيقاف تشغيل المقاطع تلقائياً إذا انتقل المستخدم لتبويب آخر في المتصفح
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        portfolioVideos.forEach(v => v.pause());
+      }
+    });
+
+    // أزرار التحكم الفردية (كتم/تشغيل الصوت والتشغيل/الإيقاف المؤقت)
+    portfolioCards.forEach(card => {
+      const video = card.querySelector('.portfolio-video');
+      const soundBtn = card.querySelector('.btn-video-sound');
+      const playBtn = card.querySelector('.btn-video-playback');
+
+      if (!video) return;
+
+      // زر التحكم بالصوت
+      if (soundBtn) {
+        soundBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const iconMuted = soundBtn.querySelector('.icon-sound-muted');
+          const iconOn = soundBtn.querySelector('.icon-sound-on');
+
+          if (video.muted) {
+            // كتم جميع الفيديوهات الأخرى أولاً لمنع تداخل الأصوات
+            portfolioVideos.forEach(otherVideo => {
+              if (otherVideo !== video) {
+                otherVideo.muted = true;
+                delete otherVideo.dataset.userUnmuted;
+                const otherCard = otherVideo.closest('.portfolio-card');
+                if (otherCard) {
+                  const otherSoundBtn = otherCard.querySelector('.btn-video-sound');
+                  if (otherSoundBtn) {
+                    otherSoundBtn.classList.remove('is-unmuted');
+                    const mIcon = otherSoundBtn.querySelector('.icon-sound-muted');
+                    const oIcon = otherSoundBtn.querySelector('.icon-sound-on');
+                    if (mIcon && oIcon) {
+                      mIcon.classList.remove('hidden');
+                      oIcon.classList.add('hidden');
+                    }
+                  }
+                }
+              }
+            });
+
+            video.muted = false;
+            video.volume = 1;
+            video.dataset.userUnmuted = 'true';
+            soundBtn.classList.add('is-unmuted');
+            if (iconMuted && iconOn) {
+              iconMuted.classList.add('hidden');
+              iconOn.classList.remove('hidden');
+            }
+            video.play().catch(() => {});
+          } else {
+            video.muted = true;
+            delete video.dataset.userUnmuted;
+            soundBtn.classList.remove('is-unmuted');
+            if (iconMuted && iconOn) {
+              iconMuted.classList.remove('hidden');
+              iconOn.classList.add('hidden');
+            }
+          }
+        });
+      }
+
+      // زر التشغيل والإيقاف المؤقت
+      if (playBtn) {
+        playBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          toggleVideoPlayback(video);
+        });
+      }
+    });
+
+    function toggleVideoPlayback(video) {
+      const card = video.closest('.portfolio-card');
+      const playBtn = card ? card.querySelector('.btn-video-playback') : null;
+
+      if (video.paused) {
+        video.play().then(() => {
+          updatePlayIcon(playBtn, true);
+        }).catch(() => {});
+      } else {
+        video.pause();
+        updatePlayIcon(playBtn, false);
+      }
+    }
+
+    function updatePlayIcon(playBtn, isPlaying) {
+      if (!playBtn) return;
+      if (isPlaying) {
+        // إظهار أيقونة الإيقاف المؤقت (خطين متوازيين)
+        playBtn.innerHTML = `
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+          </svg>
+        `;
+        playBtn.setAttribute('title', 'إيقاف مؤقت');
+        playBtn.setAttribute('aria-label', 'إيقاف مؤقت للمقطع');
+      } else {
+        // إظهار أيقونة مثلث التشغيل
+        playBtn.innerHTML = `
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+        `;
+        playBtn.setAttribute('title', 'تشغيل المقطع');
+        playBtn.setAttribute('aria-label', 'تشغيل المقطع');
+      }
+    }
+
+    // تبويبات تصفية معرض الفيديو
+    if (pfTabButtons.length > 0) {
+      pfTabButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const filter = btn.getAttribute('data-filter') || 'all';
+
+          pfTabButtons.forEach(b => {
+            b.classList.remove('active');
+            b.setAttribute('aria-selected', 'false');
+          });
+          btn.classList.add('active');
+          btn.setAttribute('aria-selected', 'true');
+
+          portfolioCards.forEach(card => {
+            const cardCategory = card.getAttribute('data-category');
+            if (filter === 'all' || cardCategory === filter) {
+              card.classList.remove('is-hidden');
+            } else {
+              card.classList.add('is-hidden');
+              const hiddenVideo = card.querySelector('.portfolio-video');
+              if (hiddenVideo) {
+                hiddenVideo.pause();
+              }
+            }
+          });
+        });
+      });
+    }
+  }
+
+  // التحكم التلقائي بفيديو آلية العمل في قسم كيف نعمل (processVideo)
   const processVideo = document.getElementById('process-video');
   const processSection = document.getElementById('how-it-works');
 
-  if (processVideo && processSection) {
-    const isMobile = window.innerWidth < 768;
-    if (!isMobile && 'IntersectionObserver' in window) {
-      const videoObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            processVideo.play().catch(() => {
-              // التعامل مع متصفحات تمنع التشغيل التلقائي
-            });
-          } else {
-            processVideo.pause();
-          }
-        });
-      }, { threshold: 0.3 });
+  if (processVideo && processSection && 'IntersectionObserver' in window) {
+    const processObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          processVideo.play().catch(() => {});
+        } else {
+          processVideo.pause();
+        }
+      });
+    }, { threshold: 0.3 });
 
-      videoObserver.observe(processSection);
-    } else {
-      // الحفاظ على خفة وسرعة الموقع على الجوال بدون استهلاك بيانات الفيديو
-      processVideo.pause();
-    }
+    processObserver.observe(processSection);
   }
 
   /* ==========================================================================
    * 6. شريط مقارنة قبل وبعد التفاعلي (Before / After Slider)
    * ========================================================================== */
-  // تبديل المقارنات الثلاث عبر التبويبات
   const baTabButtons = document.querySelectorAll('.ba-tab-btn');
   const baSliders = document.querySelectorAll('.ba-slider-container');
 
@@ -446,7 +624,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const targetSlider = document.getElementById(targetId);
       if (targetSlider) {
         targetSlider.classList.add('active');
-        // إعادة ضبط موضع المقبض في المنتصف
         const range = targetSlider.querySelector('.ba-range-input');
         if (range) {
           range.value = 50;
@@ -456,12 +633,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // تحديث أشرطة السحب لجميع المقارنات
   function updateSliderPosition(sliderContainer, percentage) {
     const beforeLayer = sliderContainer.querySelector('.ba-before-layer');
     const handle = sliderContainer.querySelector('.ba-handle');
     if (beforeLayer && handle) {
-      // نظراً للاتجاه RTL: طبقة "قبل" تبدأ من اليمين
       beforeLayer.style.width = `${percentage}%`;
       handle.style.right = `${percentage}%`;
     }
@@ -476,7 +651,6 @@ document.addEventListener('DOMContentLoaded', () => {
       updateSliderPosition(slider, val);
     });
 
-    // تهيئة الموضع المبدئي
     updateSliderPosition(slider, parseFloat(rangeInput.value));
   });
 
